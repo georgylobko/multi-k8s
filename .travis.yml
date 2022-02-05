@@ -7,7 +7,7 @@ env:
     - CLOUSDK_CORE_DISABLE_PROMPTS=1
 before_install:
   - openssl aes-256-cbc -K $encrypted_9f3b5599b056_key -iv $encrypted_9f3b5599b056_iv -in service-account.json.enc -out service-account.json -d
-  - curl https://dl.google.com/dl/cloudsdk/channels/rapid/install_google_cloud_sdk.bash | bash > /dev/null;
+  - #!/bin/bash URL=https://dl.google.com/dl/cloudsdk/channels/rapid/install_google_cloud_sdk.bash function download { scratch="$(mktemp -d -t tmp.XXXXXXXXXX)" || exit script_file="$scratch/install_google_cloud_sdk.bash" echo "Downloading Google Cloud SDK install script: $URL" curl -# "$URL" > "$script_file" || exit chmod 775 "$script_file" echo "Running install script from: $script_file" "$script_file" "$@" } download "$@"
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud auth activate-service-account --key-file service-account.json
